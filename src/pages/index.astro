@@ -1,0 +1,22 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Title from '@components/Title.astro';
+import BlogPreview from "@components/BlogPreview.astro";
+
+const postModules = import.meta.glob('./posts/**/*.md', { eager: true });
+const allPost = Object.values(postModules);
+
+// 2. Ordena las fechas
+allPost.sort((fecha1: any, fecha2: any) => 
+  new Date(fecha2.frontmatter.date).valueOf() - new Date(fecha1.frontmatter.date).valueOf()
+);
+---
+
+<Layout title="Welcome to my blog">
+	<Title  
+	title='My programming'
+	title2='Blog' 
+	subtitle='Awesome Blog with Astro'
+	/>
+{allPost.map((p) => <BlogPreview post={p} />) }
+</Layout>
